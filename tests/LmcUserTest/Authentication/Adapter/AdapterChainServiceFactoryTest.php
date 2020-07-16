@@ -61,9 +61,9 @@ class AdapterChainServiceFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \LmcUser\Authentication\Adapter\AdapterChainServiceFactory::createService
+     * @covers \LmcUser\Authentication\Adapter\AdapterChainServiceFactory::__invoke
      */
-    public function testCreateService()
+    public function testInvoke()
     {
         $adapter = array(
             'adapter1'=> $this->getMock(

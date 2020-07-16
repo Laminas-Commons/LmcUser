@@ -2,27 +2,27 @@
 namespace LmcUser\Authentication\Adapter;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use LmcUser\Authentication\Adapter\AdapterChain;
-use LmcUser\Options\ModuleOptions;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use LmcUser\Authentication\Adapter\Exception\OptionsNotFoundException;
+use LmcUser\Options\ModuleOptions;
 
 class AdapterChainServiceFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    /**
+     * {@inheritDoc}
+     * @see \Laminas\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $chain = new AdapterChain();
-        $chain->setEventManager($serviceLocator->get('EventManager'));
+        $chain->setEventManager($container->get('EventManager'));
 
-        $options = $this->getOptions($serviceLocator);
+        $options = $this->getOptions($container);
 
         //iterate and attach multiple adapters and events if offered
         foreach ($options->getAuthAdapters() as $priority => $adapterName) {
-            $adapter = $serviceLocator->get($adapterName);
+            $adapter = $container->get($adapterName);
 
             if (is_callable(array($adapter, 'authenticate'))) {
                 $chain->getEventManager()->attach('authenticate', array($adapter, 'authenticate'), $priority);
@@ -40,11 +40,6 @@ class AdapterChainServiceFactory implements FactoryInterface
      * @var ModuleOptions
      */
     protected $options;
-
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->__invoke($serviceLocator, null);
-    }
 
 
     /**
