@@ -1,3 +1,9 @@
+> **Important**: This respository is abandoned.
+>
+> The library was moved to [LM-Commons/LmcUser](https://github.com/LM-Commons/LmcUser)
+
+
+
 LmcUser
 =======
 [![Build Status](https://travis-ci.com/Laminas-Commons/LmcUser.svg?branch=master)](https://travis-ci.com/Laminas-Commons/LmcUser.svg?branch=master)
