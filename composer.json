@@ -62,5 +62,6 @@
         "psr-0": {
             "LmcUserTest": "tests/"
         }
-    }
+    },
+    "abandoned": "lm-commons/lmc-user"
 }
